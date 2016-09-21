@@ -1,5 +1,5 @@
 #include <ESP8266WiFi.h>
-const char* ssid = "Anonymus";
+const char* ssid = "FREE-WIFI";
 const char* password = "ontani209";
 int ledPin = 13; // GPIO13 Arduino = D7 NodeMCU
 
@@ -72,6 +72,7 @@ void loop() {
   client.println("<!DOCTYPE HTML>");
 
   client.println("<html>");
+  client.println("<body>");
 
   client.print("Led pin is now: ");
 
@@ -83,10 +84,15 @@ void loop() {
     client.print("Off");
   }
   client.println("<br><br>");
+//  client.println(ledPin);
+  client.println("<h1>LED</h1>");
   client.println("<a href=\"/LED=ON\"\"><button>Turn On </button></a>");
   client.println("<a href=\"/LED=OFF\"\"><button>Turn Off </button></a><br />");
   client.println("<button>koy</button>");
+  client.println("<script>console.log('koy')</script>");
+  client.println("</body>");
   client.println("</html>");
+  client.print("");
   delay(1);
   Serial.println("Client disonnected");
   Serial.println("");
