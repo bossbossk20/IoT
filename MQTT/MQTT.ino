@@ -21,7 +21,7 @@ char buff[50];
 void setup() {
   pinMode(BUILTIN_LED, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
   pinMode(LEDPIN,OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
   setup_wifi();
   client.setServer(mqtt_server,14459);  //16406 , 17402 ,27402,37402
   client.setCallback(callback);
@@ -107,8 +107,8 @@ void loop() {
     Serial.print(" C   " );
     Serial.print(h);
     Serial.println(" % ");
-    client.publish("Temperature", temp);
-    client.publish("Humidity",hum);
+    client.publish("/Temperature",msg);
+    client.publish("/Humidity",msg2);
     digitalWrite(BUILTIN_LED, HIGH);
     digitalWrite(LEDPIN,HIGH);
   }
