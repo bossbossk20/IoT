@@ -5,7 +5,6 @@ LiquidCrystal lcd(12, 14, 2, 0, 4, 5);
 const char* ssid = "Cisco06394";
 const char* password = "ontani209";
 
-// Config MQTT Server
 #define mqtt_server "m12.cloudmqtt.com"
 #define mqtt_port 14459
 #define mqtt_user "hwztqpui"
@@ -21,7 +20,7 @@ void setup() {
 //  lcd.setCursor(2, 0);
 //  lcd.print("koy");
   delay(10);
-  
+
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -80,6 +79,4 @@ void callback(char* topic, byte* payload, unsigned int length) {
     lcd.print("Humi : ");
     lcd.print(msg);
   }
-//  lcd.setCursor(2, 1);
-//  lcd.print(msg);
 }
