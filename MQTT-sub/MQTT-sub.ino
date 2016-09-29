@@ -18,10 +18,10 @@ void setup() {
 
   Serial.begin(115200);
   lcd.begin(16, 2);
-//  lcd.setCursor(2, 0);
-//  lcd.print("koy");
+ lcd.setCursor(2, 0);
+ lcd.print("koy");
   delay(10);
-  
+
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -69,17 +69,4 @@ void callback(char* topic, byte* payload, unsigned int length) {
   int i = 0;
   while (i < length) msg += (char)payload[i++];
   Serial.println(msg);
-  to = topic;
-  Serial.print(to);
-  if (to == "/Temperature") {
-    lcd.setCursor(2,1);
-    lcd.print("Temp : ");
-    lcd.print(msg);
-  } else if (to == "/Humidity") {
-    lcd.setCursor(2,0);
-    lcd.print("Humi : ");
-    lcd.print(msg);
-  }
-//  lcd.setCursor(2, 1);
-//  lcd.print(msg);
 }
