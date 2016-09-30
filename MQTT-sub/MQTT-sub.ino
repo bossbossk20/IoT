@@ -7,9 +7,9 @@ const char* password = "ontani209";
 
 // Config MQTT Server
 #define mqtt_server "m12.cloudmqtt.com"
-#define mqtt_port 14459
-#define mqtt_user "hwztqpui"
-#define mqtt_password "FLj-CZ54RMFN"
+#define mqtt_port
+#define mqtt_user ""
+#define mqtt_password ""
 
 WiFiClient espClient;
 PubSubClient client(espClient);
