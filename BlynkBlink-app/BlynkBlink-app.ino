@@ -6,7 +6,7 @@
 #include <DHT.h>
 #include <DHT_U.h>
 float te = 0.0;
-#define DHTPIN            13    
+#define DHTPIN            D3    
 #define DHTTYPE           DHT22
 
 DHT_Unified dht(DHTPIN, DHTTYPE);
@@ -40,7 +40,6 @@ void sendUptime()
     Blynk.virtualWrite(V2, event.relative_humidity);
   }
 }
-
 void loop()
 {
   Blynk.run();
