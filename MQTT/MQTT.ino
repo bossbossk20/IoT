@@ -3,24 +3,24 @@
 #include "DHT.h"
 #define LEDPIN  D1
 #define BUILTIN_LED D2
-const char* ssid = "Cisco06394";
-const char* password = "ontani209"; 
+const char* ssid = "Apple TV";
+const char* password = "APPLE_TV"; 
 const char* mqtt_server = "m12.cloudmqtt.com";
-
-#define DHTPIN D3
+int count = 1;
+#define DHTPIN D1
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE,15);
-
+int c = 0;
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
 char msg[50];
 char msg2[50];
 char buff[50];
-
+float oldTemp = 0.0;
 void setup() {
-  pinMode(BUILTIN_LED, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
-  pinMode(LEDPIN,OUTPUT);
+  pinMode(D0, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
+  pinMode(D2,OUTPUT);
   Serial.begin(115200);
   setup_wifi();
   client.setServer(mqtt_server,14459);  //16406 , 17402 ,27402,37402
@@ -51,19 +51,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
-  }
-  Serial.println();
-  if ((char)payload[0] == '1') {
-    digitalWrite(BUILTIN_LED, LOW);
-  } 
-  else if((char)payload[0] == '2'){
-    digitalWrite(5,LOW);
-  }
-  else {
-    digitalWrite(BUILTIN_LED, HIGH);
-  }
 }
 
 void reconnect() {
@@ -77,6 +64,8 @@ void reconnect() {
       client.publish("iot", "Start");
       // ... and resubscribe
       //client.subscribe("Node2");
+      client.publish("/Temperature",msg);
+      client.publish("/Humidity",msg2);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -99,6 +88,20 @@ void loop() {
     char hum[50];
     float h = dht.readHumidity();
     float t = dht.readTemperature();
+
+    if (t > oldTemp) {
+         digitalWrite(D0, HIGH);
+         delay(2000);
+         digitalWrite(D1, LOW);
+      } else if (t < oldTemp){
+          digitalWrite(D0, LOW);
+          delay(2000);
+          digitalWrite(D1, HIGH);
+      } else if (t == oldTemp) {
+          digitalWrite(D0, HIGH);
+          digitalWrite(D2, HIGH);
+        }
+    oldTemp = t;
     itoa(t,temp,10);
     itoa(h,hum,10);
     snprintf (msg,75,temp);
@@ -109,8 +112,16 @@ void loop() {
     Serial.println(" % ");
     client.publish("/Temperature",msg);
     client.publish("/Humidity",msg2);
-    digitalWrite(BUILTIN_LED, HIGH);
-    digitalWrite(LEDPIN,HIGH);
   }
+  
+  if (count % 2 == 0) {
+      digitalWrite(D0, HIGH);
+      digitalWrite(D2, HIGH);
+   }
+   else if (count % 2 != 0) {
+     digitalWrite(D0, LOW);
+      digitalWrite(D2, LOW);
+   }
+   count++;
 }
 
