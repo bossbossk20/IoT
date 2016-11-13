@@ -4,7 +4,9 @@ const int ledPin = D1;
 int buttonPushCounter = 0;
 int buttonState = 0;       
 int lastButtonState = 0; 
-
+const int redPin = D5;
+const int greenPin = D6;
+const int bluePin = D7;
 const char WEBSITE[] = "api.pushingbox.com";
 const String devid = "vA1E45411696DF03";
 const char* MY_SSID = "Cisco06394";
@@ -13,6 +15,9 @@ const char* MY_PWD =  "ontani209";
 void setup() {
   pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT);
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);  
   Serial.begin(115200);
   Serial.print("Connecting to "+*MY_SSID);
   WiFi.begin(MY_SSID, MY_PWD);
@@ -28,13 +33,29 @@ void setup() {
   Serial.println("");
 }
 
+void setColor(int red, int green, int blue)
+{
+  #ifdef COMMON_ANODE
+    red = 255 - red;
+    green = 255 - green;
+    blue = 255 - blue;
+  #endif
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+  analogWrite(bluePin, blue);  
+}
+
 void loop() {
   WiFiClient client;
   buttonState = digitalRead(buttonPin);
   if (buttonState != lastButtonState) {
     if (buttonState == HIGH) {
       Serial.println("pressed");
-      
+        setColor(255, 0, 0);
+        delay(1000);
+        setColor(0, 255, 0);
+        delay(1000);
+        setColor(0, 0, 255);
       if (client.connect(WEBSITE, 80)){ 
       client.print("GET /pushingbox?devid=" + devid + "&humidityData=1");
       client.println(" HTTP/1.1"); 
