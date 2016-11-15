@@ -7,8 +7,7 @@ int lastButtonState = 0;
 const int redPin = D5;
 const int greenPin = D6;
 const int bluePin = D7;
-const char WEBSITE[] = "api.pushingbox.com";
-const String devid = "vA1E45411696DF03";
+const char WEBSITE[] = "api-iot.herokuapp.com";
 const char* MY_SSID = "Cisco06394";
 const char* MY_PWD =  "ontani209";
 
@@ -51,13 +50,13 @@ void loop() {
   if (buttonState != lastButtonState) {
     if (buttonState == HIGH) {
       Serial.println("pressed");
-        setColor(255, 0, 0);
+        setColor(255, 0, 0);  // red
         delay(1000);
         setColor(0, 255, 0);
         delay(1000);
         setColor(0, 0, 255);
       if (client.connect(WEBSITE, 80)){ 
-      client.print("GET /pushingbox?devid=" + devid + "&humidityData=1");
+      client.print("GET /api?location=1");
       client.println(" HTTP/1.1"); 
       client.print("Host: ");
       client.println(WEBSITE);
