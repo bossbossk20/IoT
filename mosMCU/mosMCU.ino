@@ -8,8 +8,8 @@ const int redPin = D5;
 const int greenPin = D6;
 const int bluePin = D7;
 const char WEBSITE[] = "api-iot.herokuapp.com";
-const char* MY_SSID = "Cisco06394";
-const char* MY_PWD =  "ontani209";
+const char* MY_SSID = "FITM WiFi";
+const char* MY_PWD =  "";
 
 void setup() {
   pinMode(buttonPin, INPUT);
@@ -25,7 +25,10 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.print(".");
+    RGBcolor(1, 0, 0); // red
   }
+  RGBcolor(0, 0, 1); 
+  delay(1000);
   Serial.println("wl connected");
   Serial.println("");
   Serial.println("WIFI connected\n ");
@@ -39,32 +42,33 @@ void RGBcolor(int red, int green, int blue) {
 }
 
 void loop() {
+  RGBcolor(0, 0, 1); 
   WiFiClient client;
   buttonState = digitalRead(buttonPin);
   if (buttonState != lastButtonState) {
     if (buttonState == HIGH) {
       Serial.println("pressed");
-      RGBcolor(1, 0, 0);
-      delay(1000);
       RGBcolor(0, 1, 0);
-      delay(1000);
-      RGBcolor(0, 0, 1);
+      //      delay(1000);
+      //      RGBcolor(0, 0, 1);
       delay(1000);
       if (client.connect(WEBSITE, 80)) {
-        client.print("GET /api?location=1");
+        client.print("GET /api?location=6");
         client.println(" HTTP/1.1");
         client.print("Host: ");
         client.println(WEBSITE);
         client.println("User-Agent: ESP8266/1.0");
         client.println("Connection: close");
         client.println();
+        RGBcolor(1, 0, 0);
+        delay(1800000);
       }
-
     } else {
       Serial.println("haven't pressed yet");
     }
-    delay(50);
+    delay(500);
   }
+  // RGBcolor(0, 1, 0); 
   lastButtonState = buttonState;
 }
 

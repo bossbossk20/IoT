@@ -1,6 +1,6 @@
 #include <LiquidCrystal.h>
 #include <DHT.h>
-#define DHTPIN D5
+#define DHTPIN 13
 DHT dht(DHTPIN, DHT22, 15);
 LiquidCrystal lcd(12, 14, 2, 0, 4, 5);
 void setup() {
@@ -8,6 +8,7 @@ void setup() {
   dht.begin();
   lcd.begin(16, 2);
   lcd.setCursor(2, 0);
+ 
 }
 void loop() {
   float h = dht.readHumidity();
