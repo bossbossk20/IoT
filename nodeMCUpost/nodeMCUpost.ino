@@ -7,7 +7,7 @@ const char* ssid = "Apple TV";
 const char* password = "APPLE_TV";
 
 const char* server = "api.thingspeak.com";
-#define DHTPIN 5 // what pin we’re connected to
+#define DHTPIN D5 // what pin we’re connected to
 
 DHT dht(DHTPIN, DHT22, 15);
 WiFiClient client;
